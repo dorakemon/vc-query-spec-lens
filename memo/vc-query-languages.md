@@ -341,7 +341,7 @@ PEの主要構成要素は`Presentation Definition`と`Presentation Submission`�
 | **基盤**         | OpenID for Verifiable Presentations (OpenID4VP) の一部                   | Decentralized Identity Foundation (DIF) の独立した仕様             |
 | **フォーマット** | JSONベース                                                             | JSONベース                                                         |
 | **対象**         | 主にVerifiable Credentials                                             | 特定のCredentialフォーマットに非依存（汎用的）                     |
-| **柔軟性**       | Credentialのフォーマット、タイプ、フィールドに基づく詳細なクエリ         | `input_descriptors`と`submission_requirements`による柔軟な要件定義 |
+| **柔軟性**       | Credentialのフォーマット、タイプ、フィールドに基づく詳細なクエリ         | `input_descriptors`と`submission_requirements`による柔軟な要件定義 |\
 | **連携**         | OpenID4VPフロー内で利用                                                | 任意の通信プロトコルと連携可能                                     |
 | **構文の複雑さ** | 比較的シンプル。Credential属性に直接クエリを記述。                     | `Presentation Definition`と`Presentation Submission`の2つの主要構造を持ち、より複雑な論理を表現可能。 |
 | **ユースケース** | 特定のCredential属性に基づくフィルタリング、単一Credentialの要求。       | 複数Credentialの組み合わせ、部分開示、複雑な論理条件に基づく証明要求。 |
@@ -369,6 +369,30 @@ PEの複雑性は、その強力な機能と柔軟性に由来する。主な利
 2.  **柔軟な提示要件の定義:** 複数Credentialの組み合わせ要求や、特定Credentialの特定属性のみの提示要求など、複雑なシナリオに柔軟に対応可能である。これにより、多様なユースケースに対応したきめ細やかな検証プロセスを構築できる。
 3.  **フォーマット・プロトコル非依存:** 特定のCredentialフォーマット（W3C VC以外も含む）や通信プロトコルに縛られず、汎用的に利用可能である。これにより、異なるエコシステム間での相互運用性と将来的な拡張性が確保される。
 4.  **提示の検証可能性:** `Presentation Submission`を通じて、提示されたCredentialが`Presentation Definition`の要件を正確に満たしているかを検証者が容易に確認できる。これにより、検証プロセスの信頼性が向上する。
+
+## 5. Issuer, Holder, VerifierとPresentation Definition, Presentation Submissionの関係
+
+Verifiable Credentialsのエコシステムにおける主要な役割（Issuer, Holder, Verifier）と、Presentation Exchangeにおける`Presentation Definition`および`Presentation Submission`の関係を図示する。
+
+```mermaid
+graph TD
+    subgraph Credential Issuance
+        Issuer -- 発行 --> Credential
+        Credential -- 保有 --> Holder
+    end
+
+    subgraph Presentation Exchange Flow
+        Verifier -- 1. Presentation Definition (要求) --> Holder
+        Holder -- 2. Presentation Submission (提示) --> Verifier
+        Holder -- 2. Verifiable Presentation (VP) --> Verifier
+    end
+
+    Credential --> VP
+    Presentation Definition -- 基づく --> Presentation Submission
+    Presentation Submission -- 記述 --> VP
+    Verifier -- 検証 --> VP
+    Verifier -- 検証 --> Presentation Submission
+```
 
 ## 結論
 
