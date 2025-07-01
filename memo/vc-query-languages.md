@@ -191,6 +191,13 @@ Credentialの特定の属性（クレーム）に基づくフィルタリング�
 
 ## 2. Presentation Exchange (PE)
 
+```mermaid
+graph TD
+    Issuer -->|issues VC| Holder
+    Verifier -->|1.Presentation Definition| Holder
+    Holder -->|2.Presentation Submission + VP| Verifier
+```
+
 ### 概要
 PEは、Decentralized Identity Foundation (DIF) が開発した仕様であり、検証者による証明要求と提示者による提出方法を定義する汎用的なフレームワークである。
 
@@ -368,16 +375,9 @@ PEは広範なシナリオに対応するため、設計が複雑である：
 3. **相互運用性:** フォーマット・プロトコル非依存で汎用的
 4. **検証可能性:** Presentation Submissionで要件充足を容易に確認
 
-## 5. Issuer, Holder, VerifierとPresentation Definition, Presentation Submissionの関係
+## 5. まとめ
 
-Verifiable Credentialsのエコシステムにおける主要な役割（Issuer, Holder, Verifier）と、Presentation Exchangeにおける`Presentation Definition`および`Presentation Submission`の関係を図示する。
-
-```mermaid
-graph TD
-    Issuer -->|issues VC| Holder
-    Verifier -->|1.Presentation Definition| Holder
-    Holder -->|2.Presentation Submission + VP| Verifier
-```
+本稿では、VCエコシステムにおける2つの主要なクエリ言語、DCQLとPEを比較検討した。DCQLはOpenID4VPでの単一Credential要求に特化した簡潔な仕様であり、PEは複数Credential組み合わせや部分開示に対応する汎用的なフレームワークである。
 
 ## 結論
 
