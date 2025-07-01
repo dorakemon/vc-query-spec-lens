@@ -202,15 +202,18 @@ graph TD
 PEは、Decentralized Identity Foundation (DIF) が開発した仕様であり、検証者による証明要求と提示者による提出方法を定義する汎用的なフレームワークである。
 
 ### 特徴
-- **Presentation Definition**: 検証者の証明要件を記述（`input_descriptors`で詳細定義）
-- **Presentation Submission**: 提示者の証明内容とマッピングを記述
+- **Presentation Definition**: 検証者が要求する証明の要件を記述
+  - `input_descriptors`: 必要な証明の詳細条件
+  - `submission_requirements`: 複数の証明間の論理関係（AND/OR/XOR）や数量制御
+- **Presentation Submission**: 提示者が提出する証明の内容とマッピングを記述
 - **フォーマット非依存**: JWT、VC等に限定されない
 - **プロトコル非依存**: OIDC、DIDComm等に依存しない
-- **柔軟な要件定義**: `submission_requirements`で論理関係（AND/OR/XOR）や数量を定義
 
 ### 構文と使用例
 
-PEの主要構成要素は`Presentation Definition`と`Presentation Submission`である。
+PEの主要構成要素は：
+- **Presentation Definition**: 検証者からの要求
+- **Presentation Submission**: 提示者からの応答
 
 #### Presentation Definition
 
@@ -253,9 +256,9 @@ PEの主要構成要素は`Presentation Definition`と`Presentation Submission`�
 
 **対象Presentation Definitionが対象とするVC例:** 運転免許証 (DriversLicense) で、`type`が`DriversLicense`であり、かつ`credentialSubject.age`が18以上のもの。
 
-#### Submission Requirements
+#### Submission Requirements（Presentation Definition内のプロパティ）
 
-複数の`input_descriptors`間の論理関係や、提示するCredentialの最小/最大数を定義する。
+`submission_requirements`は、Presentation Definition内のプロパティで、複数の`input_descriptors`間の論理関係や提示数を制御する。
 
 例：「運転免許証」と「パスポート」のいずれか一方の要求：
 
@@ -348,7 +351,7 @@ PEの主要構成要素は`Presentation Definition`と`Presentation Submission`�
 | **基盤**         | OpenID4VPの一部                                                        | DIFの独立した仕様                                                   |
 | **フォーマット** | JSON                                                                   | JSON                                                               |
 | **対象**         | 主にVerifiable Credentials                                             | フォーマット非依存                                                  |
-| **柔軟性**       | Credential属性の直接クエリ                                             | 複雑な要件定義が可能                                                |
+| **柔軟性**       | Credential属性の直接クエリ                                             | 複雑な要件定義（input_descriptors + submission_requirements）       |
 | **連携**         | OpenID4VPフロー内                                                      | 任意のプロトコル                                                    |
 | **構文の複雑さ** | シンプル                                                               | 複雑（2つの主要構造）                                               |
 | **ユースケース** | 単一Credential要求                                                     | 複数Credential、部分開示、複雑な論理条件                             |
@@ -365,8 +368,8 @@ PEは広範なシナリオに対応するため、設計が複雑である：
 
 1. **複数Credentialの組み合わせ:** 異なるCredentialの同時要求が可能
 2. **部分開示 (Selective Disclosure):** 必要情報のみの提示でプライバシー保護
-3. **複雑な論理関係:** AND/OR/XOR等の論理関係や数量制御
-4. **要求と応答の分離:** Presentation DefinitionとSubmissionの明確な分離
+3. **複雑な論理関係:** `submission_requirements`でAND/OR/XOR等の論理制御
+4. **要求と応答の分離:** Presentation Definition（要求）とPresentation Submission（応答）の明確な分離
 
 ### PEの利点
 
