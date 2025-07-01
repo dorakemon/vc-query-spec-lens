@@ -377,21 +377,21 @@ Verifiable Credentialsのエコシステムにおける主要な役割（Issuer,
 ```mermaid
 graph TD
     subgraph Credential Issuance
-        Issuer -- 発行 --> Credential
-        Credential -- 保有 --> Holder
+        Issuer -- issues --> Credential
+        Credential -- holds --> Holder
     end
 
     subgraph Presentation Exchange Flow
-        Verifier -- 1. Presentation Definition (要求) --> Holder
-        Holder -- 2. Presentation Submission (提示) --> Verifier
+        Verifier -- 1. Presentation Definition (Request) --> Holder
+        Holder -- 2. Presentation Submission (Submission) --> Verifier
         Holder -- 2. Verifiable Presentation (VP) --> Verifier
     end
 
     Credential --> VP
-    Presentation Definition -- 基づく --> Presentation Submission
-    Presentation Submission -- 記述 --> VP
-    Verifier -- 検証 --> VP
-    Verifier -- 検証 --> Presentation Submission
+    Presentation Definition -- defines --> Presentation Submission
+    Presentation Submission -- describes --> VP
+    Verifier -- verifies --> VP
+    Verifier -- verifies --> Presentation Submission
 ```
 
 ## 結論
