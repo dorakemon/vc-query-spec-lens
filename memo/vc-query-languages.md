@@ -85,13 +85,13 @@ DCQLおよびPEのクエリ対象となるVerifiable Credentialの構造を以�
 ## 1. Digital Credential Query Language (DCQL)
 
 ### 概要
-DCQLは、OpenID for Verifiable Presentations (OpenID4VP) の一部として定義されるJSONベースのクエリ言語である。検証者が提示者に対し、特定のデジタルCredentialの要求を記述するために用いられる。DCQLはW3C Verifiable Credentialsの構造（`type`や`credentialSubject`内のデータ）と互換性を有する。
+DCQLは、OpenID for Verifiable Presentations (OpenID4VP) の一部として定義されるJSONベースのクエリ言語である。検証者が提示者に対し、特定のデジタルCredentialの要求を記述するために用いられる。
 
 ### 特徴
-- **JSONベース**: クエリはJSON形式で記述され、可読性および機械処理性に優れる。
-- **Credentialの特定**: Credentialのフォーマット、タイプ、特定のフィールド（属性）など、詳細な条件指定が可能である。
-- **柔軟なクエリ**: 論理演算子（AND, OR）を用いた複雑なクエリの構築が可能である。
-- **OpenID4VPとの連携**: OpenID4VPフローにおけるCredential提示要求に利用される。
+- **JSONベース**: クエリはJSON形式で記述される
+- **Credentialの特定**: フォーマット、タイプ、特定フィールドなどの詳細な条件指定が可能
+- **柔軟なクエリ**: 論理演算子（AND, OR）を用いた複雑なクエリ構築
+- **OpenID4VPとの連携**: OpenID4VPフローでのCredential提示要求に利用
 
 ### 構文と使用例
 
@@ -192,14 +192,14 @@ Credentialの特定の属性（クレーム）に基づくフィルタリング�
 ## 2. Presentation Exchange (PE)
 
 ### 概要
-PEは、Decentralized Identity Foundation (DIF) が開発した仕様であり、検証者による証明（Proof）要求と提示者による提出方法を定義する。特定のCredentialフォーマットや通信プロトコルに依存しない汎用的なフレームワークを提供する。
+PEは、Decentralized Identity Foundation (DIF) が開発した仕様であり、検証者による証明要求と提示者による提出方法を定義する汎用的なフレームワークである。
 
 ### 特徴
-- **Presentation Definition**: 検証者が要求する証明の要件を記述するデータフォーマット。`input_descriptors`により、必要な情報の種類、形式、制約を詳細に定義する。
-- **Presentation Submission**: 提示者が提出する証明の内容を記述するデータフォーマット。提示されたCredentialと、要求された`input_descriptor`のマッピングを示す。
-- **フォーマット非依存**: JWTs、Verifiable Credentialsなど、特定のCredentialフォーマットに限定されない。
-- **プロトコル非依存**: OpenID Connect、DIDCommなど、特定の通信プロトコルに依存しない。
-- **柔軟な要件定義**: `submission_requirements`により、複数の`input_descriptors`間の論理関係（AND, OR, XOR）や、提示するCredentialの最小/最大数を定義可能である。
+- **Presentation Definition**: 検証者の証明要件を記述（`input_descriptors`で詳細定義）
+- **Presentation Submission**: 提示者の証明内容とマッピングを記述
+- **フォーマット非依存**: JWT、VC等に限定されない
+- **プロトコル非依存**: OIDC、DIDComm等に依存しない
+- **柔軟な要件定義**: `submission_requirements`で論理関係（AND/OR/XOR）や数量を定義
 
 ### 構文と使用例
 
@@ -337,38 +337,36 @@ PEの主要構成要素は`Presentation Definition`と`Presentation Submission`�
 
 | 特徴             | Digital Credential Query Language (DCQL)                               | Presentation Exchange (PE)                                         |
 | :--------------- | :--------------------------------------------------------------------- | :----------------------------------------------------------------- |
-| **目的**         | 特定のデジタルCredentialの要求                                         | 証明（Proof）要求と提出方法の定義                                  |
-| **基盤**         | OpenID for Verifiable Presentations (OpenID4VP) の一部                   | Decentralized Identity Foundation (DIF) の独立した仕様             |
-| **フォーマット** | JSONベース                                                             | JSONベース                                                         |
-| **対象**         | 主にVerifiable Credentials                                             | 特定のCredentialフォーマットに非依存（汎用的）                     |
-| **柔軟性**       | Credentialのフォーマット、タイプ、フィールドに基づく詳細なクエリ         | `input_descriptors`と`submission_requirements`による柔軟な要件定義 |\
-| **連携**         | OpenID4VPフロー内で利用                                                | 任意の通信プロトコルと連携可能                                     |
-| **構文の複雑さ** | 比較的シンプル。Credential属性に直接クエリを記述。                     | `Presentation Definition`と`Presentation Submission`の2つの主要構造を持ち、より複雑な論理を表現可能。 |
-| **ユースケース** | 特定のCredential属性に基づくフィルタリング、単一Credentialの要求。       | 複数Credentialの組み合わせ、部分開示、複雑な論理条件に基づく証明要求。 |
+| **目的**         | 特定のデジタルCredentialの要求                                         | 証明要求と提出方法の定義                                            |
+| **基盤**         | OpenID4VPの一部                                                        | DIFの独立した仕様                                                   |
+| **フォーマット** | JSON                                                                   | JSON                                                               |
+| **対象**         | 主にVerifiable Credentials                                             | フォーマット非依存                                                  |
+| **柔軟性**       | Credential属性の直接クエリ                                             | 複雑な要件定義が可能                                                |
+| **連携**         | OpenID4VPフロー内                                                      | 任意のプロトコル                                                    |
+| **構文の複雑さ** | シンプル                                                               | 複雑（2つの主要構造）                                               |
+| **ユースケース** | 単一Credential要求                                                     | 複数Credential、部分開示、複雑な論理条件                             |
 
 ## 4. DCQLの簡潔さとPEの複雑性、およびPEの利点
 
 ### DCQLの簡潔性
 
-DCQLは、**単一のVerifiable Credentialの属性フィルタリングと特定Credentialの要求**に特化している。この目的の限定性により、クエリ構造は直感的かつフラットであり、Credentialの`type`や`credentialSubject`内の特定フィールドへの直接アクセスを可能にする。これは、検証者が「このCredentialが欲しい」という意図を直接的に表現するのに適している。
+DCQLは単一VCの属性フィルタリングに特化しており、クエリ構造は直感的でフラットである。Credentialの`type`や`credentialSubject`内フィールドへの直接アクセスが可能。
 
 ### PEの複雑性
 
-PEは、DCQLよりも広範なシナリオに対応するため、その設計は複雑である。主な要因は以下の通りである。
+PEは広範なシナリオに対応するため、設計が複雑である：
 
-1.  **複数Credentialの組み合わせ:** PEは、単一Credentialに留まらず、**複数の異なるCredentialを組み合わせて提示を要求**できる。例として、「運転免許証」と「住所証明」の同時要求が挙げられる。
-2.  **部分開示 (Selective Disclosure):** 提示者がCredentialの全情報を開示せず、検証者が真に必要とする情報のみを提示するメカニズムを提供する。これによりプライバシー保護が強化されるが、情報開示の細やかな制御には複雑な構造（`input_descriptors`内の`fields`や`path`）が不可欠となる。
-3.  **複雑な論理関係の定義:** `submission_requirements`を通じて、提示されるCredential間の複雑な論理関係（AND, OR, XORなど）や、提示Credentialの数（最小/最大）を定義可能である。これにより、高度な柔軟性が得られる反面、記述の複雑性が増大する。
-4.  **Presentation DefinitionとPresentation Submissionの分離:** 検証者による要求定義（`Presentation Definition`）と、提示者による応答（`Presentation Submission`）が明確に分離されている。これはプロトコルレベルの柔軟性を高めるが、概念理解と実装の複雑性を伴う。
+1. **複数Credentialの組み合わせ:** 異なるCredentialの同時要求が可能
+2. **部分開示 (Selective Disclosure):** 必要情報のみの提示でプライバシー保護
+3. **複雑な論理関係:** AND/OR/XOR等の論理関係や数量制御
+4. **要求と応答の分離:** Presentation DefinitionとSubmissionの明確な分離
 
 ### PEの利点
 
-PEの複雑性は、その強力な機能と柔軟性に由来する。主な利点は以下の通りである。
-
-1.  **高度なプライバシー保護:** Selective Disclosureにより、提示者は検証者が真に必要とする情報のみを開示し、それ以外の情報を秘匿できる。これは個人情報保護の観点から極めて重要である。
-2.  **柔軟な提示要件の定義:** 複数Credentialの組み合わせ要求や、特定Credentialの特定属性のみの提示要求など、複雑なシナリオに柔軟に対応可能である。これにより、多様なユースケースに対応したきめ細やかな検証プロセスを構築できる。
-3.  **フォーマット・プロトコル非依存:** 特定のCredentialフォーマット（W3C VC以外も含む）や通信プロトコルに縛られず、汎用的に利用可能である。これにより、異なるエコシステム間での相互運用性と将来的な拡張性が確保される。
-4.  **提示の検証可能性:** `Presentation Submission`を通じて、提示されたCredentialが`Presentation Definition`の要件を正確に満たしているかを検証者が容易に確認できる。これにより、検証プロセスの信頼性が向上する。
+1. **プライバシー保護:** Selective Disclosureで必要情報のみ開示
+2. **柔軟な要件定義:** 複数Credential組み合わせや特定属性のみの要求
+3. **相互運用性:** フォーマット・プロトコル非依存で汎用的
+4. **検証可能性:** Presentation Submissionで要件充足を容易に確認
 
 ## 5. Issuer, Holder, VerifierとPresentation Definition, Presentation Submissionの関係
 
@@ -376,32 +374,17 @@ Verifiable Credentialsのエコシステムにおける主要な役割（Issuer,
 
 ```mermaid
 graph TD
-    subgraph Credential Issuance
-        Issuer -- issues --> Credential
-        Credential -- holds --> Holder
-    end
-
-    subgraph Presentation Exchange Flow
-        Verifier -- 1. Presentation Definition (Request) --> Holder
-        Holder -- 2. Presentation Submission (Submission) --> Verifier
-        Holder -- 2. Verifiable Presentation (VP) --> Verifier
-    end
-
-    Credential --> VP
-    Presentation Definition -- defines --> Presentation Submission
-    Presentation Submission -- describes --> VP
-    Verifier -- verifies --> VP
-    Verifier -- verifies --> Presentation Submission
+    Issuer -->|issues VC| Holder
+    Verifier -->|1.Presentation Definition| Holder
+    Holder -->|2.Presentation Submission + VP| Verifier
 ```
 
 ## 結論
 
-DCQLとPEは、VCエコシステムにおいて、検証者と提示者間のCredentialおよび証明の円滑なやり取りを促進する重要なツールである。
+DCQLとPEは、VCエコシステムにおける重要なクエリ言語である。
 
-- **DCQL** は、OpenID4VPの文脈において、特定のCredential属性に基づく詳細なフィルタリングや選択に有用である。Credentialの具体的な内容に焦点を当てたクエリに適しており、比較的シンプルな構文でCredential要求を記述できる。
+- **DCQL**: OpenID4VPでの単一Credential要求に特化。シンプルな構文で属性フィルタリングが可能。
 
-- **Presentation Exchange** は、より汎用的なフレームワークであり、Credentialフォーマットや通信プロトコルに依存せず、複雑な証明の組み合わせや部分開示を柔軟に定義する。複数Credentialを組み合わせて提示するシナリオや、プライバシーを重視した情報開示制御に強みがあり、高度な要件定義が可能である。
+- **PE**: 汎用的フレームワーク。複数Credential組み合わせ、部分開示、複雑な論理条件に対応。
 
-両者は異なる目的とスコープを有するが、相互補完的な関係にある。特定のユースケースにおいては、両仕様の概念を組み合わせた利用も理論的に可能である。例えば、PEの`Presentation Definition`内の`input_descriptor`の`constraints`としてDCQLクエリを用いることで、PEの柔軟なフレームワーク内でDCQLの詳細なCredential属性フィルタリング能力を活用できる。
-
-これらのクエリ言語の理解と適切な活用は、VCの相互運用性と実用性を向上させ、よりセキュアでプライバシーに配慮したデジタルアイデンティティの実現に貢献する。
+両者は相互補完的で、PEの`input_descriptor`内でDCQLクエリを用いるなど、組み合わせ利用も可能。これらの活用により、セキュアでプライバシーに配慮したデジタルアイデンティティの実現に貢献する。
